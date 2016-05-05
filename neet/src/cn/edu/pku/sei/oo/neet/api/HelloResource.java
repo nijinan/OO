@@ -9,6 +9,6 @@ public class HelloResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String sayHello() {
-        return "Hello Jersey";
+        return "Hel6lo Jersey";
     }
 }
