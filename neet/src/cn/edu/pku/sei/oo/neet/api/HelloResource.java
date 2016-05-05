@@ -4,11 +4,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import cn.edu.pku.sei.oo.neet.constants.RecipeConstant;
+
 @Path("/hello")
 public class HelloResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String sayHello() {
-        return "Hel6lo Jersey";
+        return RecipeConstant.layerList0.get(0);
     }
 }

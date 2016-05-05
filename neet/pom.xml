@@ -4,7 +4,7 @@
   <artifactId>neet</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
-	<dependencies>		
+	<dependencies>
 		<dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -61,6 +61,7 @@
 			<artifactId>snowball-stemmer</artifactId>
 			<version>1.3.0.581.1</version>
 		</dependency>        
+		
     </dependencies>   
   <build>
     <sourceDirectory>src</sourceDirectory>
