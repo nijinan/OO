@@ -11,6 +11,6 @@ public class HelloResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String sayHello() {
-        return RecipeConstant.layerList0.get(0);
+        return "???";
     }
 }

@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 
 import com.sun.jersey.spi.container.servlet.ServletContainer;
 
+import cn.edu.pku.sei.oo.neet.service.OrderManager;
+
 public class Service {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(Service.class);
@@ -45,6 +47,7 @@ public class Service {
         HandlerList handlers = new HandlerList();
         handlers.setHandlers(new Handler[]{context,resoursehandler});
         server.setHandler(handlers);
+        
         server.start();
         server.join();
     }
