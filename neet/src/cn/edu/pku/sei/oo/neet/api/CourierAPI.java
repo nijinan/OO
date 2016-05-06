@@ -1,5 +1,6 @@
 package cn.edu.pku.sei.oo.neet.api;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -16,7 +17,7 @@ import cn.edu.pku.sei.oo.neet.service.OrderManager;
 @Path("/courier")
 public class CourierAPI {
 	
-	@POST
+	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/getorder")
 	public String GetNewOrder(@QueryParam("id") int id) {

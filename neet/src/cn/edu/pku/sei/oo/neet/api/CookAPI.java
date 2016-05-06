@@ -17,7 +17,7 @@ import cn.edu.pku.sei.oo.neet.service.OrderManager;
 @Path("/cook")
 public class CookAPI {
 
-	@POST
+	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/order")
 	public String GetNewOrder(@QueryParam("id") int id) {
