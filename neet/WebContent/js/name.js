@@ -13,7 +13,7 @@ function F() {
     var param = {
         "id" : 2,
     };
-    var success : function(data) {
+    var success = function(data) {
         // do sth
         var jsonData = eval("(" + data + ")");
     };
