@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    </head>
+    <body>
+        <form id="menu">
+        <select name="bread" id="bread">
+            <option value="0">松软面包</option>
+            <option value="1">白面包</option>
+            <option value="2">巨菜叶</option>
+        </select>
+        </form>
+        <script src="/js/jquery-2.1.0.min.js"></script>
+        <script src="/js/name.js"></script>
+        <script>
+            //download name array
+            for (i=0;i<name.size();i++) {
+                $("#menu").append($("<select/>").attr({
+                    "id" : "menu"+i,
+                    "name" : "menu" + i,
+                }));
+            }
+        </script>
+    </body>
+</html>
