@@ -5,7 +5,6 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -43,7 +42,7 @@ public class CustomerAPI {
 			@QueryParam("id") int id, 
 			@QueryParam("order") String orderJSON) throws UnsupportedEncodingException {
     	// 解析JSON
-		String parsedOrder = URLDecoder.decode(orderJSON, "UTF-8");
+		String parsedOrder = java.net.URLDecoder.decode(orderJSON, "UTF-8");
 		JSONArray orderArray = new JSONArray(parsedOrder);
 		// 创建菜单
 		Recipe customRecipe = new Recipe();
