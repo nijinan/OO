@@ -23,6 +23,7 @@
                 for (i=0;i<a.length;i++) {
                     a[i]=$("#menu"+i).val();
                 }
+                console.log(a,userid);
                 $.post("/api/customer/new",{"id":userid,"order":JSON.stringify(a)},function(data) {
                     console.log(data);
                 });
