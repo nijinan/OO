@@ -3,18 +3,25 @@
     <head>
     </head>
     <body>
-        <form id="menu">
+        <form id="menu" onsubmit="submitmenu()">
         </form>
+        <ol id="recommandations">
+        </ol>
         <script src="/js/jquery-2.1.0.min.js"></script>
         <script src="/js/name.js"></script>
         <script>
-            //download name array
+            //we should download name array here
+            //load menu
             for (i=0;i<menuname.length;i++) {
                 $("#menu").append(menuname[i][0]).append($("<select/>").attr({"id":"menu"+i}));
                 for (j=1;j<menuname[i].length;j++)
                     $("#menu"+i).append($("<option/>").attr({"value":j}).html(menuname[i][j]));
                 $("#menu").append($("<br/>"));
             }
+            //load chef recommandation
+            $.get("/api/customer/chef",function(data) {
+                console.log(data);
+            });
         </script>
     </body>
 </html>
