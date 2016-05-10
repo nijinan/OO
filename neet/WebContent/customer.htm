@@ -4,6 +4,7 @@
     </head>
     <body>
         <form id="menu" onsubmit="submitmenu()">
+            User ID<input type="text" name="userid" id-"userid"><br />
         </form>
         <ol id="recommandations">
         </ol>
@@ -16,14 +17,25 @@
                 }
             }
         
+            function submitmenu() {
+                userid=$("#userid").val();
+                a=new Array();
+                for (i=0;i<a.length;i++) {
+                    a[i]=$("#menu"+i).val();
+                }
+                $.post("/api/customer/new",{"id":userid,"order":JSON.encode(a)},function(data) {
+                    console.log(data);
+                });
+            }
+        
             //we should download name array here
             //load menu
             for (i=0;i<menuname.length;i++) {
                 $("#menu").append(category[i]).append($("<select/>").attr({"id":"menu"+i}));
                 for (j=0;j<menuname[i].length;j++)
                     $("#menu"+i).append($("<option/>").attr({"value":j}).html(menuname[i][j]));
-                $("#menu").append($("<br/>"));
             }
+            $("#menu").append($('<input type="submit" value="下单" />'));
             //load chef recommandation
             $.get("/api/customer/chef",function(data) {
                 menurecommand=JSON.parse(data);
