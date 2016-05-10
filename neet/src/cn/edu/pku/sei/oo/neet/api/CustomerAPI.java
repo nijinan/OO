@@ -69,7 +69,7 @@ public class CustomerAPI {
 			obj.put("name", "REC");
 			JSONArray materialList = new JSONArray();
 			for (int i = 0; i < 6; i++) {
-				materialList.put(RecipeConstant.recipeList.get(i).get(l.get(i)).name);
+				materialList.put(l.get(i));
 			}
 			obj.put("recipe", materialList);
 			recJson.put(obj);
