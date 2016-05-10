@@ -3,7 +3,7 @@
     <head>
     </head>
     <body>
-        <form id="menu" onsubmit="submitmenu()">
+        <form id="menu" onsubmit="submitmenu()" target="#">
             User ID<input type="text" name="userid" id-"userid"><br />
         </form>
         <ol id="recommandations">
@@ -23,7 +23,7 @@
                 for (i=0;i<a.length;i++) {
                     a[i]=$("#menu"+i).val();
                 }
-                $.post("/api/customer/new",{"id":userid,"order":JSON.encode(a)},function(data) {
+                $.post("/api/customer/new",{"id":userid,"order":JSON.stringify(a)},function(data) {
                     console.log(data);
                 });
             }
