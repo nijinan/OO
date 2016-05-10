@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    </head>
+    <body>
+        Chef ID<input type="text" name="chefid" id="chefid"><br />
+        <ul id="orders">
+        </ul>
+        <script src="/js/jquery-2.1.0.min.js"></script>
+        <script src="/js/name.js"></script>
+        <script>
+            function finishorder(id) {
+                $.post("/api/cook/finish",{"orderid":id},function(data) {
+                    console.log(data);
+                    if (data=="OK") {
+                        $("#order"+id).hide();
+                    }
+                });
+            }
+
+            function checkorder() {
+                chefid=parseInt($("#chefid").val());
+                console.log("checking orders...");
+                $.get("/api/cook/order",{"id":chefid},function(data) {
+                    if (data==false) {
+                        console.log("no new order!"+data);
+                        return;
+                    }
+                    orderdata=JSON.parse(data);
+                    console.log(orderdata);
+                    $("#orders").append($("<li/>").attr({"id":"order"+orderdata.orderId}).html("订单"+orderdata.orderId+"<br />"));
+                    $("#order"+orderdata.orderId).append("顾客ID："+orderdata.customerId);
+                    $("#order"+orderdata.orderId).append($("<ol/>").attr({"id":"orderlist"+orderdata.orderId}));
+                    for (i=0;j<orderdata[i].recipe.length;i++)
+                        $("#orderlist"+orderdata.orderId).append($("<li/>").html(menuname[i][orderdata.recipe[j]]));
+                    $("#recommand"+i).append($("<button/>")
+                                              .attr({"onclick":"finishorder("+orderdata.orderId+")"})
+                                              .html("完成订单")
+                    );
+                });
+            }
+            
+            setInterval(checkorder(),3000);
+        </script>
+    </body>
+</html>
