@@ -10,7 +10,7 @@
         <script>
             //download name array
             for (i=0;i<menuname.length;i++) {
-                $("#menu").append($("<select/>").attr("id":"menu"+i));
+                $("#menu").append($("<select/>").attr({"id":"menu"+i}));
                 for (j=0;j<menuname[i].length;j++)
                     $("#menu"+i).append($("<option/>").attr({"value":j}).html(menuname[i][j]));
             }
