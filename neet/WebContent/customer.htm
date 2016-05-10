@@ -24,7 +24,7 @@
                     a[i]=parseInt($("#menu"+i).val());
                 }
                 console.log(a,userid);
-                $.post("/api/customer/new",{"id":userid,"order":JSON.stringfy(a)},function(data) {
+                $.post("/api/customer/new",{"id":userid,"order":JSON.stringify(a)},function(data) {
                     console.log(data);
                 });
             }
@@ -46,7 +46,7 @@
                     for (j=0;j<menurecommand[i].recipe.length;j++)
                         $("#recommandul"+i).append($("<li/>").html(menuname[j][menurecommand[i].recipe[j]]));
                     $("#recommand"+i).append($("<button/>")
-                                              .attr({"onclick":"setmenu("+JSON.stringfy(menurecommand[i].recipe.toString())+")"})
+                                              .attr({"onclick":"setmenu("+JSON.stringify(menurecommand[i].recipe.toString())+")"})
                                               .html("尝尝这个！")
                     );
                 }
