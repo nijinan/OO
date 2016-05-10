@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    </head>
+    <body>
+        <form id="menu" onsubmit="submitmenu()" target="#">
+            User ID<input type="text" name="userid" id="userid"><br />
+        </form>
+        <ol id="recommandations">
+        </ol>
+        <script src="/js/jquery-2.1.0.min.js"></script>
+        <script src="/js/name.js"></script>
+        <script>
+            function setmenu(a) {
+                for (i=0;i<a.length;i++) {
+                    $("#menu"+i).val(a[i]);
+                }
+            }
+        
+            function submitmenu() {
+                userid=$("#userid").val();
+                a=new Array();
+                for (i=0;i<category.length;i++) {
+                    a[i]=parseInt($("#menu"+i).val());
+                }
+                console.log(a,userid);
+                $.post("/api/customer/new",{"id":userid,"order":JSON.stringify(a)},function(data) {
+                    console.log(data);
+                });
+            }
+        
+            //we should download name array here
+            //load menu
+            for (i=0;i<category.length;i++) {
+                $("#menu").append(category[i]).append($("<select/>").attr({"id":"menu"+i}));
+                for (j=0;j<menuname[i].length;j++)
+                    $("#menu"+i).append($("<option/>").attr({"value":j}).html(menuname[i][j]));
+            }
+            $("#menu").append($('<input type="submit" value="下单" />'));
+            //load chef recommandation
+            $.get("/api/customer/chef",function(data) {
+                menurecommand=JSON.parse(data);
+                for (i=0;i<menurecommand.length;i++) {
+                    $("#recommandations").append($("<li/>").attr({"id":"recommand"+i}).html(menurecommand[i].name));
+                    $("#recommand"+i).append($("<ul/>").attr({"id":"recommandul"+i}));
+                    for (j=0;j<menurecommand[i].recipe.length;j++)
+                        $("#recommandul"+i).append($("<li/>").html(menuname[j][menurecommand[i].recipe[j]]));
+                    $("#recommand"+i).append($("<button/>")
+                                              .attr({"onclick":"setmenu("+JSON.stringify(menurecommand[i].recipe.toString())+")"})
+                                              .html("尝尝这个！")
+                    );
+                }
+            });
+        </script>
+    </body>
+</html>
