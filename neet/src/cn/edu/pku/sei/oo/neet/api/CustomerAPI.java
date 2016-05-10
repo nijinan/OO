@@ -1,5 +1,7 @@
 package cn.edu.pku.sei.oo.neet.api;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,9 +41,10 @@ public class CustomerAPI {
 	@Path("/new")
 	public String CreateNewOrder( 
 			@QueryParam("id") int id, 
-			@QueryParam("order") String orderJSON) {
+			@QueryParam("order") String orderJSON) throws UnsupportedEncodingException {
     	// 解析JSON
-		JSONArray orderArray = new JSONArray(orderJSON);
+		String parsedOrder = URLDecoder.decode(orderJSON, "UTF-8");
+		JSONArray orderArray = new JSONArray(parsedOrder);
 		// 创建菜单
 		Recipe customRecipe = new Recipe();
 		customRecipe.SetRecipe(orderArray.getInt(0),
@@ -69,7 +72,7 @@ public class CustomerAPI {
 			obj.put("name", "REC");
 			JSONArray materialList = new JSONArray();
 			for (int i = 0; i < 6; i++) {
-				materialList.put(RecipeConstant.recipeList.get(i).get(l.get(i)).name);
+				materialList.put(l.get(i));
 			}
 			obj.put("recipe", materialList);
 			recJson.put(obj);
