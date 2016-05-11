@@ -32,7 +32,7 @@
                     $("#order"+orderdata.orderId).append("顾客ID："+orderdata.customerId);
                     $("#order"+orderdata.orderId).append("厨师ID："+orderdata.cookId);
                     $("#order"+orderdata.orderId).append($("<button/>")
-                                              .attr({"onclick":"finishorder("+orderdata.orderId+")"})
+                                              .attr({"onclick":"confirmorder("+orderdata.orderId+")"})
                                               .html("完成订单")
                     );
                 });
