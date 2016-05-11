@@ -22,17 +22,17 @@
                 chefid=parseInt($("#chefid").val());
                 console.log("checking orders...");
                 $.get("/api/cook/order",{"id":chefid},function(data) {
-                    if (data==false) {
-                        console.log("no new order!"+data);
+                    if (data=="false") {
+                        console.log("no new order!");
                         return;
                     }
                     orderdata=JSON.parse(data);
-                    console.log(orderdata);
+                    console.log(data);
                     $("#orders").append($("<li/>").attr({"id":"order"+orderdata.orderId}).html("订单"+orderdata.orderId+"<br />"));
                     $("#order"+orderdata.orderId).append("顾客ID："+orderdata.customerId);
                     $("#order"+orderdata.orderId).append($("<ol/>").attr({"id":"orderlist"+orderdata.orderId}));
-                    for (i=0;j<orderdata[i].recipe.length;i++)
-                        $("#orderlist"+orderdata.orderId).append($("<li/>").html(menuname[i][orderdata.recipe[j]]));
+                    for (i=0;i<orderdata.recipe.length;i++)
+                        $("#orderlist"+orderdata.orderId).append($("<li/>").html(menuname[i][orderdata.recipe[i]]));
                     $("#recommand"+i).append($("<button/>")
                                               .attr({"onclick":"finishorder("+orderdata.orderId+")"})
                                               .html("完成订单")
@@ -40,7 +40,7 @@
                 });
             }
             
-            setInterval(checkorder(),3000);
+            setInterval(checkorder,3000);
         </script>
     </body>
 </html>
