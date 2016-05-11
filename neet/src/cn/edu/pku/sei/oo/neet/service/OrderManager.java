@@ -10,6 +10,7 @@ public class OrderManager {
 		newOrder = new ArrayList<Order>();
 		acceptedOrder = new ArrayList<Order>();
 		cookedOrder = new ArrayList<Order>();
+		unconfirmedOrder = new ArrayList<Order>();
 	}  
 	
     public static final OrderManager orderManager = new OrderManager();  
@@ -18,6 +19,7 @@ public class OrderManager {
 	private ArrayList<Order> newOrder;
 	private ArrayList<Order> acceptedOrder;
 	private ArrayList<Order> cookedOrder;
+	private ArrayList<Order> unconfirmedOrder;
 	
 	
 	public String test() {
@@ -69,7 +71,7 @@ public class OrderManager {
 	 * 通过orderid从cooked里获取order
 	 */
 	public Order GetCookedOrderById(int orderId) {
-		for (Order o : cookedOrder) {
+		for (Order o : unconfirmedOrder) {
 			if (o.GetId() == orderId)
 				return o;
 		}
@@ -84,8 +86,8 @@ public class OrderManager {
 		if (order == null) {
 			return false;
 		}
-		acceptedOrder.remove(order);
 		cookedOrder.add(order);
+		acceptedOrder.remove(order);
 		return true;
 	}
 	
@@ -97,6 +99,7 @@ public class OrderManager {
 			return null;
 		Order order = cookedOrder.remove(0);
 		order.SetCourierId(courierId);
+		unconfirmedOrder.add(order);
 		return order;
 	}
 	

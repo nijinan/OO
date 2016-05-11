@@ -1,19 +1,39 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
     <head>
+    <meta charset="UTF-8">
     </head>
     <body>
-        Chef ID<input type="text" name="chefid" id="chefid" value="0"><br />
+    	<div id="chefInfo">
+        	厨师ID:<input type="text" name="chefid" id="chefid" value="0">
+        </div>
+        <br />
         <ul id="orders">
         </ul>
         <script src="/js/jquery-2.1.0.min.js"></script>
         <script src="/js/name.js"></script>
         <script>
+        	var timer = null;
+        	
+        	function startFetch() {
+        		timer = setInterval(checkorder,3000);
+        		$("#startButton").hide();
+        		$("#stopButton").show();
+        		
+        	};
+        	function stopFetch() {
+        		clearInterval(timer);
+        		$("#startButton").show();
+        		$("#stopButton").hide();
+        	};
+        	$("#chefInfo").append($("<button/>").attr({"id":"startButton"}).html("开始接单").bind("click", startFetch));
+    		$("#chefInfo").append($("<button/>").attr({"id":"stopButton"}).html("停止接单").bind("click", stopFetch));
+        	$("#stopButton").hide();
             function finishorder(id) {
                 $.post("/api/cook/finish",{"orderid":id},function(data) {
                     console.log(data);
                     if (data=="OK") {
-                        $("#order"+id).hide();
+                        $("#order"+id).remove();
                     }
                 });
             }
@@ -26,21 +46,20 @@
                         console.log("no new order!");
                         return;
                     }
-                    orderdata=JSON.parse(data);
-                    console.log(data);
+                    orderdata=eval("(" + data +")");
+                    console.log(orderdata);
                     $("#orders").append($("<li/>").attr({"id":"order"+orderdata.orderId}).html("订单"+orderdata.orderId+"<br />"));
                     $("#order"+orderdata.orderId).append("顾客ID："+orderdata.customerId);
                     $("#order"+orderdata.orderId).append($("<ol/>").attr({"id":"orderlist"+orderdata.orderId}));
                     for (i=0;i<orderdata.recipe.length;i++)
-                        $("#orderlist"+orderdata.orderId).append($("<li/>").html(menuname[i][orderdata.recipe[i]]));
+                        $("#orderlist"+orderdata.orderId).append($("<li/>").html(orderdata.recipe[i]));
                     $("#order"+orderdata.orderId).append($("<button/>")
                                               .attr({"onclick":"finishorder("+orderdata.orderId+")"})
                                               .html("完成订单")
                     );
                 });
             }
-            
-            setInterval(checkorder,3000);
+           
         </script>
     </body>
 </html>

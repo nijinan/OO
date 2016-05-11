@@ -1,19 +1,38 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
     <head>
+    <meta charset="UTF-8" />
     </head>
     <body>
-        Courier ID<input type="text" name="courier" id="courier" value="0"><br />
+    	<div id="courierInfo">
+        	递送员ID<input type="text" name="courier" id="courier" value="0"><br />
+        </div>
         <ul id="orders">
         </ul>
         <script src="/js/jquery-2.1.0.min.js"></script>
         <script src="/js/name.js"></script>
         <script>
+        	var timer = null;
+    	
+    		function startFetch() {
+    			timer = self.setInterval(checkorder,3000);
+    			$("#startButton").hide();
+    			$("#stopButton").show();
+    		
+    		};
+    		function stopFetch() {
+    			clearInterval(timer);
+    			$("#startButton").show();
+    			$("#stopButton").hide();
+    		};
+    		$("#courierInfo").append($("<button/>").attr({"id":"startButton"}).html("开始接单").bind("click", startFetch));
+    		$("#courierInfo").append($("<button/>").attr({"id":"stopButton"}).html("停止接单").bind("click", stopFetch));
+    		$("#stopButton").hide();
             function confirmorder(id) {
                 $.post("/api/courier/confirm",{"orderid":id},function(data) {
                     console.log(data);
                     if (data=="OK") {
-                        $("#order"+id).hide();
+                        $("#order"+id).remove();
                     }
                 });
             }
@@ -32,13 +51,13 @@
                     $("#order"+orderdata.orderId).append("顾客ID："+orderdata.customerId);
                     $("#order"+orderdata.orderId).append("厨师ID："+orderdata.cookId);
                     $("#order"+orderdata.orderId).append($("<button/>")
-                                              .attr({"onclick":"finishorder("+orderdata.orderId+")"})
+                                              .attr({"onclick":"confirmorder("+orderdata.orderId+")"})
                                               .html("完成订单")
                     );
                 });
             }
             
-            setInterval(checkorder,3000);
+            
         </script>
     </body>
 </html>

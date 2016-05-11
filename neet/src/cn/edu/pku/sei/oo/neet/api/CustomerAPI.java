@@ -5,6 +5,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -39,11 +40,12 @@ public class CustomerAPI {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/new")
 	public String CreateNewOrder( 
-			@QueryParam("id") int id, 
-			@QueryParam("order") String orderJSON) throws UnsupportedEncodingException {
+			@FormParam("id") int id, 
+			@FormParam("order") String orderJSON) throws UnsupportedEncodingException {
     	// 解析JSON
+		System.out.println("Get A Order: " + String.valueOf(id) + " " + orderJSON);
 		if (orderJSON == null)
-			return "false";
+			return "Error";
 		String parsedOrder = java.net.URLDecoder.decode(orderJSON, "UTF-8");
 		JSONArray orderArray = new JSONArray(parsedOrder);
 		System.out.println(orderJSON + "->" + parsedOrder);
@@ -60,7 +62,7 @@ public class CustomerAPI {
 		// 添加到列表
 		OrderManager.orderManager.AddNewOrder(order);
 		
-        return "OK";
+        return String.valueOf(order.GetPrice());
     }
 	
 	@GET
@@ -71,7 +73,7 @@ public class CustomerAPI {
 		JSONArray recJson = new JSONArray();
 		for (List<Integer> l : rec) {
 			JSONObject obj = new JSONObject();
-			obj.put("name", "REC");
+			obj.put("name", "主厨推荐");
 			JSONArray materialList = new JSONArray();
 			for (int i = 0; i < 6; i++) {
 				materialList.put(l.get(i));

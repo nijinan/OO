@@ -1,5 +1,6 @@
 package cn.edu.pku.sei.oo.neet.api;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -36,8 +37,8 @@ public class CourierAPI {
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/confirm")
-	public String ConfirmOrder(@QueryParam("orderid") int orderId) {
-		if (OrderManager.orderManager.FinishOrder(orderId))
+	public String ConfirmOrder(@FormParam("orderid") int orderId) {
+		if (OrderManager.orderManager.ConfirmOrder(orderId))
 			return "OK";
 		else
 			return "Error";

@@ -21,6 +21,7 @@ public class Order {
 		for (Material m : recipe.layer) {
 			price += m.price;
 		}
+		
 	}
 	
 	public void SetId(int id) {
@@ -58,5 +59,9 @@ public class Order {
 	public boolean Finish() {
 		// do sth
 		return true;
+	}
+	
+	public double GetPrice() {
+		return price;
 	}
 }

@@ -1,5 +1,6 @@
 package cn.edu.pku.sei.oo.neet.api;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -34,13 +35,14 @@ public class CookAPI {
 				recipe.put(m.name);
 			}
 			orderInfo.put("recipe", recipe);
+			System.out.println(orderInfo.toString());
 			return orderInfo.toString();
 	}
 	
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/finish")
-	public String FinishOrder(@QueryParam("orderid") int orderId) {
+	public String FinishOrder(@FormParam("orderid") int orderId) {
 		
 		if (OrderManager.orderManager.FinishOrder(orderId))
 			return "OK";
