@@ -36,7 +36,7 @@ public class Service {
         context.setContextPath("/api");
         ServletHolder sh = new ServletHolder(ServletContainer.class);
         sh.setInitParameter("com.sun.jersey.config.property.resourceConfigClass", "com.sun.jersey.api.core.PackagesResourceConfig");
-        sh.setInitParameter("com.sun.jersey.config.property.packages", "package cn.edu.pku.sei.oo.neet.api");        
+        sh.setInitParameter("com.sun.jersey.config.property.packages", "package cn.edu.pku.sei.oo.mos.api");        
         context.addServlet(sh, "/*");
         
         ResourceHandler resoursehandler = new ResourceHandler();

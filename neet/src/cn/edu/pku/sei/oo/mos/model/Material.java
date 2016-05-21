@@ -98,7 +98,7 @@ public class Material {
 		JSONObject ret = new JSONObject();
 		String disc = name;
 		if (type == 5 && mix != 0)
-			disc += " 混合 " + MaterialManager.meterialManager.GetMixById(mix);
+			disc += " 混合 " + MaterialManager.GetInstance().GetMixById(mix);
 		ret.put("name", disc);
 		ret.put("price", price);
 		

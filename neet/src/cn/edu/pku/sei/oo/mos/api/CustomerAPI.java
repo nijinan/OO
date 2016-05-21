@@ -48,13 +48,15 @@ public class CustomerAPI {
 		if (orderJSON == null)
 			return "Error";
 		JSONArray orderList = new JSONArray(orderJSON);
+		System.out.println(orderList);
 		ArrayList<Material> mList = new ArrayList<Material>();
 		for (int i = 0; i < orderList.length(); i++) {
 			Material mi = null;
 			if (orderList.getJSONObject(i).has("mix")) {
-				mi = MaterialManager.meterialManager.GetMaterialCopy(orderList.getJSONObject(i).getInt("id"), orderList.getJSONObject(i).getInt("mix"));
+				mi = MaterialManager.GetInstance().GetMaterialCopy(orderList.getJSONObject(i).getInt("id"), orderList.getJSONObject(i).getInt("mix"));
 			}
-			mi = MaterialManager.meterialManager.GetMaterialCopy(orderList.getJSONObject(i).getInt("id"));
+			else
+				mi = MaterialManager.GetInstance().GetMaterialCopy(orderList.getJSONObject(i).getInt("id"));
 			mList.add(mi);
 		}
 		
@@ -66,7 +68,7 @@ public class CustomerAPI {
 		// 添加到列表
 		OrderManager.orderManager.AddNewOrder(order);
 		
-        return String.valueOf(order.GetPrice());
+        return String.valueOf(order.GetCustomerJson());
     }
 	
 	@GET
