@@ -6,16 +6,5 @@ var menuname=[
 ["芥末酱","蛋黄酱","烧烤酱","香辣酱","千岛酱","番茄酱"],
 ["培根","牛油果泥","玉米脆片","香煎蘑菇","煎蛋"]
 ];
-var category=["面包","肉饼","蔬菜","芝士","酱料","其它"]
+var category=["面包","肉饼","蔬菜","芝士","酱料","其它"];
 
-function F() {
-    var url = "";
-    var param = {
-        "id" : 2,
-    };
-    var success = function(data) {
-        // do sth
-        var jsonData = eval("(" + data + ")");
-    };
-    $.post(url, param, success);
-}
