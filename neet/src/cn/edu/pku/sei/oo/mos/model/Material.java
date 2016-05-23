@@ -58,6 +58,10 @@ public class Material {
 		calorie = calo;
 	}
 	
+	public void SetFather(int father) {
+		this.father = father;
+	}
+	
 	public void SetMix(int mixId) {
 		if (type != 5)
 			return;

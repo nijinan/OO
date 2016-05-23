@@ -37,8 +37,6 @@ public class MaterialJDBC {
 		String sqlString = "select * from material";
 		MySQL mySQL = new MySQL();
 		ArrayList<HashMap<String, Object>> list = mySQL.execute(sqlString);
-		if (list == null)
-			return null;
 		return list;
 		
 	}
@@ -51,21 +49,28 @@ public class MaterialJDBC {
 		
 	}
 	
+	public static ArrayList<HashMap<String, Object>> GetHamburgers() throws Exception {
+		String sqlString = "select * from hamburgers";
+		MySQL mySQL = new MySQL();
+		ArrayList<HashMap<String, Object>> list = mySQL.execute(sqlString);
+		return list;
+	}
+	
 	public static void update(Material m) throws Exception{		
-		String sqlString = "update material set "
-				+ "name=" + convertStr(m.name)   
-				+ ", material-type=" + convertStr(m.type)  
-				+ ", price=" + convertStr(m.price)  
-				+ ", changed-father=" + convertStr(m.father)  
-				+ ", calorie=" + convertStr(m.calorie)  
-				+ ", protein=" + convertStr(m.protein)  
-				+ ", calcium=" + convertStr(m.calcium)  
-				+ ", vitamin=" + convertStr(m.vitamin)  
-				+ ", energy=" + convertStr(m.energy)
-				+ ", carbohydrate=" + convertStr(m.carbo)	
-				+ ", sodium=" + convertStr(m.sodium)
-				+ ", fat=" + convertStr(m.fat)
-				+ " where id=" + m.ID;
+		String sqlString = "update `material` set "
+				+ "`name`=" + convertStr(m.name)   
+				+ ", `material-type`=" + convertNum(m.type)  
+				+ ", `price`=" + convertNum(m.price)  
+				+ ", `changed-father`=" + convertNum(m.father)  
+				+ ", `calorie`=" + convertNum(m.calorie)  
+				+ ", `protein`=" + convertNum(m.protein)  
+				+ ", `calcium`=" + convertNum(m.calcium)  
+				+ ", `vitamin`=" + convertNum(m.vitamin)  
+				+ ", `energy`=" + convertNum(m.energy)
+				+ ", `carbohydrate`=" + convertNum(m.carbo)	
+				+ ", `sodium`=" + convertNum(m.sodium)
+				+ ", `fat`=" + convertNum(m.fat)
+				+ " where `id`=" + m.ID;
 		new MySQL().execute(sqlString);
 	}
 
@@ -96,6 +101,12 @@ public class MaterialJDBC {
 		new MySQL().execute(sqlString);
 	}
 
+	public static String convertNum(Object num) {
+		if (num == null) return "null";
+		else
+			return num.toString();
+	}
+	
 	public static String convertStr(Object str){
 		if(str==null) return "null";
 		else return "'" + str.toString().replaceAll(".*([';]+|(--)+).*", " ") + "'";

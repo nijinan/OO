@@ -9,11 +9,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import cn.edu.pku.sei.oo.mos.jdbc.MaterialJDBC;
+import cn.edu.pku.sei.oo.mos.model.Hamburger;
 import cn.edu.pku.sei.oo.mos.model.Material;
 
 public class MaterialManager {
 	public ArrayList<Material> materialList;
 	public ArrayList<String> mixList;
+	public ArrayList<Hamburger> hamList;
 	
 	private static MaterialManager materialManager = null; 
 	
@@ -26,6 +28,7 @@ public class MaterialManager {
 	private MaterialManager() {
 		materialList = new ArrayList<Material>();
 		mixList = new ArrayList<String>();
+		hamList = new ArrayList<Hamburger>();
 		LoadData();
 	}
 	
@@ -33,6 +36,7 @@ public class MaterialManager {
 		try {
 			GetMaterialFromMap(MaterialJDBC.GetAllMaterials());
 			GetMixFromMap(MaterialJDBC.GetMix());
+			GetHamburgerFromMap(MaterialJDBC.GetHamburgers());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -74,6 +78,9 @@ public class MaterialManager {
 		if (m == null)
 			return;
 		m.price = jm.getDouble("price");
+		m.name = jm.getString("name");
+		if (jm.has("father"))
+			m.father = jm.getInt("father");
 		m.SetData(JReadNum(jm, "fat"), 
 				  JReadNum(jm, "sodium"),
 				  JReadNum(jm, "carbo"),
@@ -114,6 +121,15 @@ public class MaterialManager {
 			mi.put("id", i);
 			mi.put("name", mixList.get(i));
 			ret.put(mi);
+		}
+		return ret;
+	}
+	
+	public JSONArray GetHamList() {
+		JSONArray ret = new JSONArray();
+		for (Hamburger h : hamList) {
+			System.out.println(h.name);
+			ret.put(h.ToJson());
 		}
 		return ret;
 	}
@@ -181,6 +197,16 @@ public class MaterialManager {
 		for(HashMap<String, Object> mMap : ml){
 			//System.out.println(mMap.toString());
 			mixList.add((String)mMap.get("name"));
+		}
+	}
+	
+	public void GetHamburgerFromMap(ArrayList<HashMap<String, Object>> hl) {
+		for(HashMap<String, Object> mMap : hl){
+			Hamburger h = new Hamburger(ConvertNum((Integer)mMap.get("id")), (String)mMap.get("name"));
+			h.SetLayer((Integer)mMap.get("01"), (Integer)mMap.get("02"), (Integer)mMap.get("03"), 
+					(Integer)mMap.get("04"), (Integer)mMap.get("05"), (Integer)mMap.get("06"), 
+					(Integer)mMap.get("07"), (Integer)mMap.get("08"), (Integer)mMap.get("09"), (Integer)mMap.get("10"));
+			hamList.add(h);
 		}
 	}
 	

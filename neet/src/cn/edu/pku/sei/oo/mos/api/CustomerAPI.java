@@ -25,12 +25,7 @@ import cn.edu.pku.sei.oo.mos.service.OrderManager;
 @Path("/customer")
 public class CustomerAPI {
 	
-	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/order")
-	public String GetList() {
-		return null;
-	}
+	
 	
 	
 	/*
@@ -75,19 +70,7 @@ public class CustomerAPI {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/chef")
 	public String GetRecommendation() {
-//		ArrayList<List<Integer>> rec = RecipeConstant.recommendation;
-//		JSONArray recJson = new JSONArray();
-//		for (List<Integer> l : rec) {
-//			JSONObject obj = new JSONObject();
-//			obj.put("name", "主厨推荐");
-//			JSONArray materialList = new JSONArray();
-//			for (int i = 0; i < 6; i++) {
-//				materialList.put(l.get(i));
-//			}
-//			obj.put("recipe", materialList);
-//			recJson.put(obj);
-//		}
-//		return recJson.toString();
-		return "123";
+		JSONArray ret = MaterialManager.GetInstance().GetHamList();
+		return ret.toString();
 	}
 }

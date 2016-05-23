@@ -10,7 +10,7 @@ public class Test {
 	public static void main(String[] args) throws Exception {
 		
 		//MaterialJDBC.GetMix();
-		JSONArray m = MaterialManager.GetInstance().GetMaterialList();
+		JSONArray m = MaterialManager.GetInstance().GetHamList();
 		System.out.println(m);
 	}
 }
