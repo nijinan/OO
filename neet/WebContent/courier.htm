@@ -1,5 +1,153 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Courier</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Courier</a></li>
+            <li><a href="/chef.htm">Chef</a></li>
+            <li><a href="/customer.htm">Customer</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+        <div class="row"  id="courierInfo">
+            <div class="input-group col-md-3">
+              <span class="input-group-addon" id="basic-addon1">递送员ID</span>
+              <input type="text" class="form-control" placeholder="递送员ID" aria-describedby="basic-addon1" id="courier" value="0">
+            </div>
+        </div>
+        <div class="row" id="orders">
+        
+        </div><!-- /.container-fluid -->
+    </div><!-- /.container -->
+
+    </div><!-- /.container-fluid -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+        <script>
+        	var timer = null;
+    	
+    		function startFetch() {
+    			timer = self.setInterval(checkorder,3000);
+    			$("#startButton").hide();
+    			$("#stopButton").show();
+    		
+    		};
+    		function stopFetch() {
+    			clearInterval(timer);
+    			$("#startButton").show();
+    			$("#stopButton").hide();
+    		};
+    		$("#courierInfo").append($("<button/>").attr({"id":"startButton","class":"btn btn-default"}).html("开始接单").bind("click", startFetch));
+    		$("#courierInfo").append($("<button/>").attr({"id":"stopButton","class":"btn btn-default"}).html("停止接单").bind("click", stopFetch));
+    		$("#stopButton").hide();
+            function confirmorder(id) {
+                $.post("/api/courier/confirm",{"orderid":id},function(data) {
+                    console.log(data);
+                    if (data=="OK") {
+                        $("#order"+id).remove();
+                    }
+                });
+            }
+
+            function checkorder() {
+                courierid=parseInt($("#courier").val());
+                console.log("checking orders...");
+                $.get("/api/courier/getorder",{"id":courierid},function(data) {
+                    if (data=="false") {
+                        console.log("no new order!");
+                        return;
+                    }
+                    orderdata=JSON.parse(data);
+                    console.log(data);
+                    $("#orders").append($("<div/>").attr({"id":"order"+orderdata.orderId,"class":"col-md-2 well"}).html("订单"+orderdata.orderId+"<br />"));
+                    $("#order"+orderdata.orderId).append("顾客ID "+orderdata.customerId+"<br />");
+                    $("#order"+orderdata.orderId).append("厨师ID "+orderdata.cookId+"<br />");
+                    $("#order"+orderdata.orderId).append($("<button/>")
+                                              .attr({"onclick":"confirmorder("+orderdata.orderId+")"})
+                                              .html("完成订单")
+                    );
+                });
+            }
+            
+            
+        </script>
+  </body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    </head>
+    <body>
+        
+        <ul id="orders">
+        </ul>
+        <script src="/js/jquery-2.1.0.min.js"></script>
+        <script src="/js/name.js"></script> 
+        <script>
+            function confirmorder(id) {
+                $.post("/api/courier/confirm",{"orderid":id},function(data) {
+                    console.log(data);
+                    if (data=="OK") {
+                        $("#order"+id).hide();
+                    }
+                });
+            }
+
+            function checkorder() {
+                chefid=parseInt($("#courier").val());
+                console.log("checking orders...");
+                $.get("/api/courier/getorder",{"id":chefid},function(data) {
+                    if (data=="false") {
+                        console.log("no new order!");
+                        return;
+                    }
+                    orderdata=JSON.parse(data);
+                    console.log(data);
+                    $("#orders").append($("<li/>").attr({"id":"order"+orderdata.orderId}).html("订单"+orderdata.orderId+"<br />"));
+                    $("#order"+orderdata.orderId).append("顾客ID："+orderdata.customerId);
+                    $("#order"+orderdata.orderId).append("厨师ID："+orderdata.cookId);
+                    $("#order"+orderdata.orderId).append($("<button/>")
+                                              .attr({"onclick":"confirmorder("+orderdata.orderId+")"})
+                                              .html("完成订单")
+                    );
+                });
+            }
+            
+            setInterval(checkorder,3000);
+        </script>
+    </body>
+</html>
+
+<!DOCTYPE html>
+<html lang="zh-CN">
     <head>
     <meta charset="UTF-8" />
     </head>
@@ -61,3 +209,4 @@
         </script>
     </body>
 </html>
+-->

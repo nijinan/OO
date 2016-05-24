@@ -1,74 +1,161 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
-    <meta charset="UTF-8" />
-    </head>
-    <body>
-    	<div id="userInfo">
-    	客户ID<input type="text" name="userid" id="userid"><br />
-    	<ol id="message"></ol>
-    	</div>
-        <ol id="menu">
-            
-        </ol>
-        <ol id="recommandations">
-        </ol>
-        <script src="/js/jquery.min.js"></script>
-        <script src="/js/name.js"></script>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Customer</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/courier.htm">Courier</a></li>
+            <li><a href="/chef.htm">Chef</a></li>
+            <li class="active"><a href="/customer.htm">Customer</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+        <div class="row" id="userInfo">
+            <div class="col-md-3 input-group">
+              <span class="input-group-addon" id="basic-addon1">用户ID</span>
+              <input type="text" class="form-control" placeholder="一个数字" aria-describedby="basic-addon1" id="user">
+            </div>
+        <div class="row">
+            <div class="col-md-3">
+                <h2>菜单</h2>
+                <ul class="list-group" id="menu">
+                    <li class="list-group-item">空</li>
+                </ul>
+                <button type="button" class="btn btn-default" onclick="submitmenu()">
+                    提交菜单
+                </button>
+                <ol class="list-group" id="message">
+                </ol>
+            </div>
+            <div class="col-md-3" id="food_list">
+                <h2>食材</h2>
+            </div>
+            <div class="col-md-6" id="recommandation_list">
+                <h2>推荐列表</h2>
+            </div>
+        </div>
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
         <script>
-            function setmenu(a) {
-            	var obj = JSON.parse("["+a+"]");
-                for (i=0;i<a.length;i++) {
-                    $("#menu"+i).val(obj[i]);
+            var food_list=new Array();
+            var mix_list=new Array();
+            var menu=new Array();
+            
+            function refreshmenu() {
+                $("#menu").empty();
+                for (i in menu) {
+                    $("#menu").append($("<li/>").attr({"class":"list-group-item"}).html(food_list[menu[i].id].name).append($("<button/>").attr({"class":"btn btn-default glyphicon glyphicon-remove","onclick":"delmenu("+i+")"})));
+                    //mix
                 }
+            }
+            
+            function delmenu(id) {
+                menu.splice(id,1);
+                refreshmenu();
+            }
+            
+            function addmenu(id) {
+                if (typeof(food_list[id].mix)!=undefined) {
+                    menu.push({"id":id,"mix":food_list[id].mix});
+                } else {
+                    menu.push({"id":id});
+                }
+                refreshmenu();
+            }
+            
+            function setmenu(a) {
+                menu=new Array();
+                for (i in a ) {
+                    if (typeof(food_list[a[i]].mix)!=undefined) {
+                        menu.push({"id":a[i],"mix":food_list[a[i]].mix});
+                    } else {
+                        menu.push({"id":a[i]});
+                    }
+                }
+                refreshmenu();
             };
         
             function submitmenu() {
                 userid=$("#userid").val();
-                a=new Array();
-                for (i=0;i<category.length;i++) {
-                    a[i]=parseInt($("#menu"+i).val());
-                }
-                console.log(a,userid);
+                console.log(menu,userid);
                	var url = "/api/customer/new";
                	var param = {
                		"id" : userid,
-               		"order" : JSON.stringify(a)
+               		"order" : JSON.stringify(menu)
                	};
                 $.post(url, param, function(data) {
                     console.log(data);
                     if (data != "Error") {
-                    	$("#message").append($("<li/>").html("您的订单已接收，您需支付" + data + "元"))
+                        var neworder_resp=JSON.parse(data);
+                        $("#message").empty();
+                        for (i in neworder_resp.recipe)
+                            $("#message").append($("<li/>").attr({"class":"list-group-item"}).html(neworder_resp.recipe[i].price+" "+neworder_resp.recipe[i].name));
                     }
                 });
             };
         
-            //we should download name array here
-            //load menu
-            $(function() {
-            for (i=0;i<category.length;i++) {
-                $("#menu").append($("<li/>").append(category[i]).append($("<select/>").attr({"id":"menu"+i})));
-                for (j=0;j<menuname[i].length;j++)
-                    $("#menu"+i).append($("<option/>").attr({"value":j}).html(menuname[i][j]));
-            }
-            $("#menu").append($("<button/>").attr({"id":"submitMenu"}).html("下单"));
-            $("#submitMenu").bind("click", submitmenu);
+            //load and print food list
+            $.get("/api/common/list",function(data) {
+                var list_no_order=JSON.parse(data);
+                for (i in list_no_order) {
+                    food_list[list_no_order[i].id]=list_no_order[i];
+                }
+                for (i in food_list) {
+                    $("#food_list").append($("<button/>").attr({"class":"btn btn-default col-md-4","data-toggle":"tooltip","title":food_list[i].name,"onclick":"addmenu("+i+")"}).html(food_list[i].name));
+                }
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+            
+            //load mix list
+            $.get("/api/common/mix",function(data) {
+                var mix_no_order=JSON.parse(data);
+                for (i in mix_no_order) {
+                    mix_list[mix_no_order[i].id]=mix_no_order[i];
+                }
+            });
             
             //load chef recommandation
             $.get("/api/customer/chef",function(data) {
                 menurecommand=JSON.parse(data);
-                for (i=0;i<menurecommand.length;i++) {
-                    $("#recommandations").append($("<li/>").attr({"id":"recommand"+i}).html(menurecommand[i].name));
-                    $("#recommand"+i).append($("<ul/>").attr({"id":"recommandul"+i}));
-                    for (j=0;j<menurecommand[i].recipe.length;j++)
-                        $("#recommandul"+i).append($("<li/>").html(menuname[j][menurecommand[i].recipe[j]]));
+                for (i in menurecommand) {
+                    $("#recommandation_list").append($("<div/>").attr({"id":"recommand"+i,"class":"col-md-4"}).html(menurecommand[i].name));
+                    $("#recommand"+i).append($("<ul/>").attr({"id":"recommandul"+i,"class":"list-group"}));
+                    for (j in menurecommand[i].recipe)
+                        $("#recommandul"+i).append($("<li/>").attr({"class":"list-group-item"}).html(food_list[menurecommand[i].recipe[j]].name));
                     $("#recommand"+i).append($("<button/>")
-                                              .attr({"onclick":"setmenu("+JSON.stringify(menurecommand[i].recipe)+")"})
+                                              .attr({"onclick":"setmenu("+JSON.stringify(menurecommand[i].recipe)+")","class":"btn btn-default"})
                                               .html("尝尝这个！")
                     );
                 }
             });
-            });
         </script>
-    </body>
+  </body>
 </html>
+
