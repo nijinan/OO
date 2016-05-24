@@ -37,7 +37,7 @@ public class Hamburger {
 		ret.put("name", name);
 		JSONArray mlayer = new JSONArray();
 		for (Integer i : layer) {
-			mlayer.put(MaterialManager.GetInstance().GetMaterialById(i.intValue()).name);
+			mlayer.put(i.intValue());
 		}
 		ret.put("recipe", mlayer);
 		return ret;
