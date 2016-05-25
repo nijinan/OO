@@ -7,6 +7,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import cn.edu.pku.sei.oo.mos.service.MaterialManager;
 import cn.edu.pku.sei.oo.mos.service.OrderManager;
@@ -29,5 +30,14 @@ public class DieticianAPI {
 		}
 		return "OK";
 		
+	}
+	
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/insert")
+	public String InsertMaterial(@FormParam("data") String data) {
+		JSONObject insertMaterial = new JSONObject(data);
+		MaterialManager.GetInstance().AddMaterial(insertMaterial);
+		return "OK";
 	}
 }
