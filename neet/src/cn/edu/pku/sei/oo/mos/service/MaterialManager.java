@@ -46,6 +46,7 @@ public class MaterialManager {
 	public void ClearData() {
 		materialList.clear();
 		mixList.clear();
+		hamList.clear();
 	}
 	
 	public void AddMaterial(JSONObject jm) {

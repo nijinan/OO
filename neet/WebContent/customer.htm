@@ -13,7 +13,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
-
+    <link href="/css/mos.css" rel="stylesheet">
   </head>
 
   <body>
@@ -31,14 +31,61 @@
     </nav>
 
     <div class="container">
-        <div class="row" id="userInfo">
-            <div class="col-md-3 input-group">
-              <span class="input-group-addon" id="basic-addon1">用户ID</span>
-              <input type="text" class="form-control" placeholder="一个数字" aria-describedby="basic-addon1" id="user">
+    <div class="row">
+    	<div class="col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">Reports</a></li>
+            <li><a href="#">Analytics</a></li>
+            <li><a href="#">Export</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">Nav item</a></li>
+            <li><a href="">Nav item again</a></li>
+            <li><a href="">One more nav</a></li>
+            <li><a href="">Another nav item</a></li>
+            <li><a href="">More navigation</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">Nav item again</a></li>
+            <li><a href="">One more nav</a></li>
+            <li><a href="">Another nav item</a></li>
+          </ul>
+        </div>
+        <div id="center" class="col-md-7">
+        	<div id="userInfo">
+            	<div class="input-group">
+              		<span class="input-group-addon" id="basic-addon1">用户ID</span>
+              		<input type="text" class="form-control" placeholder="一个数字" aria-describedby="basic-addon1" id="user" />
+            	</div>
+          	</div>
+            <div id="food_list" class="row">
+                <h2>自选食材</h2>
+                <div id="type1" class="col-md-12">
+                	<h3>面包</h3>
+                </div>
+                <div id="type2" class="col-md-12">
+                	<h3>肉饼</h3>
+                </div>
+                <div id="type3" class="col-md-12">
+                	<h3>蔬菜</h3>
+                </div>
+                <div id="type4" class="col-md-12">
+                	<h3>芝士</h3>
+                </div>
+                <div id="type5" class="col-md-12">
+                	<h3>酱料</h3>
+                </div>
+                <div id="type6" class="col-md-12">
+                	<h3>其他</h3>
+                </div>
             </div>
-        <div class="row">
-            <div class="col-md-3">
-                <h2>我的组合</h2>
+            <div id="recommandation_list" class="row">
+                <h2>推荐列表</h2>
+            </div>
+        </div>
+        <div class="col-md-3 sidebar-offcanvas" id="sidebar">
+          <h2>我的组合</h2>
                 <table class="table table-striped" id="menu">
 						<thead>
 							<tr>
@@ -57,17 +104,13 @@
 					</table>
                  
                 <button type="button" class="btn btn-default" onclick="submitmenu()">
-                    提交菜单
+                    		提交菜单
                 </button>
+                <div>
                 <ol class="list-group" id="message">
                 </ol>
             </div>
-            <div class="col-md-3" id="food_list">
-                <h2>食材</h2>
-            </div>
-            <div class="col-md-6" id="recommandation_list">
-                <h2>推荐列表</h2>
-            </div>
+        </div>
         </div>
     </div><!-- /.container -->
 
@@ -165,7 +208,7 @@
                     food_list[list_no_order[i].id]=list_no_order[i];
                 }
                 for (i in food_list) {
-                    $("#food_list").append($("<button/>").attr({"class":"btn btn-default col-md-4","data-toggle":"tooltip","title":food_list[i].name,"onclick":"addmenu("+i+")"}).html(food_list[i].name));
+                    $("#type"+food_list[i].type).append($("<button/>").attr({"class":"btn btn-default col-md-4","data-toggle":"tooltip","title":food_list[i].name,"onclick":"addmenu("+i+")"}).html(food_list[i].name));
                 }
                 $('[data-toggle="tooltip"]').tooltip();
             });
