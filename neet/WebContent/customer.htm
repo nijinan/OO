@@ -38,10 +38,24 @@
             </div>
         <div class="row">
             <div class="col-md-3">
-                <h2>菜单</h2>
-                <ul class="list-group" id="menu">
-                    <li class="list-group-item">空</li>
-                </ul>
+                <h2>我的组合</h2>
+                <table class="table table-striped" id="menu">
+						<thead>
+							<tr>
+								<td>#</td>
+								<td>食材</td>
+								<td>价格</td>
+								<td></td>
+							</tr>
+						</thead>
+						<tbody id="menubody">
+							<tr>
+								<td colspan=3>空</td>
+							</tr>
+						</tbody>
+
+					</table>
+                 
                 <button type="button" class="btn btn-default" onclick="submitmenu()">
                     提交菜单
                 </button>
@@ -69,9 +83,32 @@
             var menu=new Array();
             
             function refreshmenu() {
-                $("#menu").empty();
+                $("#menubody").empty();
                 for (i in menu) {
-                    $("#menu").append($("<li/>").attr({"class":"list-group-item"}).html(food_list[menu[i].id].name).append($("<button/>").attr({"class":"btn btn-default glyphicon glyphicon-remove","onclick":"delmenu("+i+")"})));
+                	$("#menubody").append(
+                		$("<tr/>")
+                			.append($("<th/>").attr({
+                				"scope":"row"
+                			}).html(eval(i)+1))
+                			.append($("<td/>").html(food_list[menu[i].id].name))
+                			.append($("<td/>").html(food_list[menu[i].id].price))
+                			.append($("<td/>")
+                					.append($("<button/>").attr({
+                    					"class":"btn btn-default btn-xs glyphicon glyphicon-remove",
+                    					"onclick":"delmenu("+i+")"
+                    				})
+                    				)
+                    		)
+                	);	
+                	
+                	
+                    /* $("#menubody").append($("<tr/>").attr({
+                    	"class":"list-group-item"
+                    }).html(food_list[menu[i].id].name)
+                    .append($("<button/>").attr({
+                    	"class":"btn btn-default btn-xs glyphicon glyphicon-remove",
+                    	"onclick":"delmenu("+i+")"
+                    }).css("float","right"))); */
                     //mix
                 }
             }
