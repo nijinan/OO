@@ -162,12 +162,12 @@
                 }
                 //console.log(res,JSON.stringify(Array(res)));
                 if (submittype==0) {
-                    $.post("/api/diet/insert", {"data":JSON.stringify(Array(res))}, function(data) {
+                    $.post("/api/diet/insert", {"data":JSON.stringify(res)}, function(data) {
                         console.log(data);
                         $("#message").html(data);
                     });
                 } else {
-                    $.post("/api/diet/modify", {"data":JSON.stringify(res)}, function(data) {
+                    $.post("/api/diet/modify", {"data":JSON.stringify(Array(res))}, function(data) {
                         console.log(data);
                         $("#message").html(data);
                     });
