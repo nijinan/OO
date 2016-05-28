@@ -160,14 +160,14 @@
                 	if ((typeof($("#nut_value_"+attr_list[i]).val())!="undefined")&&($("#nut_value_"+attr_list[i]).val().length>0))
                         res[attr_list[i]]=$("#nut_value_"+attr_list[i]).val();
                 }
-                console.log(res,JSON.stringify(Array(res)));
+                //console.log(res,JSON.stringify(Array(res)));
                 if (submittype==0) {
                     $.post("/api/diet/insert", {"data":JSON.stringify(Array(res))}, function(data) {
                         console.log(data);
                         $("#message").html(data);
                     });
                 } else {
-                    $.post("/api/diet/modify", {"data":JSON.stringify(Array(res))}, function(data) {
+                    $.post("/api/diet/modify", {"data":JSON.stringify(res)}, function(data) {
                         console.log(data);
                         $("#message").html(data);
                     });
