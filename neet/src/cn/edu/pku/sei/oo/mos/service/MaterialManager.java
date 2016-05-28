@@ -186,7 +186,7 @@ public class MaterialManager {
 					ConvertNum((Double)mMap.get("carbohydrate")), 
 					ConvertNum((Double)mMap.get("energy")), 
 					ConvertNum((Double)mMap.get("vitamin")), 
-					ConvertNum((Double)mMap.get("calium")), 
+					ConvertNum((Double)mMap.get("calcium")), 
 					ConvertNum((Double)mMap.get("protein")), 
 					ConvertNum((Double)mMap.get("calorie")));
 			materialList.add(m);

@@ -72,8 +72,8 @@
                 <table class="table table-striped" id="nutritionlist">
 						<thead>
 							<tr>
-								<td>成分</td>
-								<td>含量</td>
+								<th>属性</th>
+								<th>值</th>
 							</tr>
 						</thead>
 						<tbody id="nutritionlistbody">
@@ -103,12 +103,26 @@
     <script src="/js/bootstrap.min.js"></script>
         <script>
         
-            var attr_list=["sodium","carbo","price","protein","fat","calorie","energy","vitamin","calcium"];
+            var attr_list=["energy","sodium","carbo","protein","fat","vitamin","calcium","price"];
             var attr_list_ro=["name","father","id","type"];
-        
+            var attr_map = {
+            		"sodium" : "盐",
+            		"carbo" : "碳水化合物",
+            		"price" : "价格",
+            		"protein" : "蛋白质",
+            		"fat" : "脂肪",
+            		"calorie" : "卡路里",
+            		"energy" : "能量",
+            		"vitamin" : "维生素",
+            		"calcium" : "钙",
+            		"name" : "名称",
+            		"father" : "基准食材",
+            		"type" : "食材类型",
+            		"id":"id"
+            };
             var food_list=new Array();
             var submittype=0;//0=add 1=mod
-            //var mix_list=new Array();
+            
             
             function addfood() {
                 submittype=0;
@@ -116,14 +130,14 @@
                 for (i in attr_list_ro) {
                 	$("#nutritionlistbody").append(
                 		$("<tr/>")
-                			.append($("<th/>").html(attr_list_ro[i]))
+                			.append($("<th/>").html(attr_map[attr_list_ro[i]]))
                 			.append($("<td/>").append($("<input/>").attr({"id":"nut_value_"+attr_list_ro[i]})))
                     );
                 }
                 for (i in attr_list) {
                 	$("#nutritionlistbody").append(
                 		$("<tr/>")
-                			.append($("<th/>").html(attr_list[i]))
+                			.append($("<th/>").html(attr_map[attr_list[i]]))
                 			.append($("<td/>").append($("<input/>").attr({"id":"nut_value_"+attr_list[i]})))
                     );
                 }
@@ -135,14 +149,14 @@
                 for (i in attr_list_ro) {
                 	$("#nutritionlistbody").append(
                 		$("<tr/>")
-                			.append($("<th/>").html(attr_list_ro[i]))
+                			.append($("<th/>").html(attr_map[attr_list_ro[i]]))
                 			.append($("<td/>").append($("<input/>").attr({"id":"nut_value_"+attr_list_ro[i],"value":food_list[id][attr_list_ro[i]],"disabled":"disabled"})))
                     );
                 }
                 for (i in attr_list) if (typeof(food_list[id][attr_list[i]])!="undefined") {
                 	$("#nutritionlistbody").append(
                 		$("<tr/>")
-                			.append($("<th/>").html(attr_list[i]))
+                			.append($("<th/>").html(attr_map[attr_list[i]]))
                 			.append($("<td/>").append($("<input/>").attr({"id":"nut_value_"+attr_list[i],"value":food_list[id][attr_list[i]]})))
                     );
                 }
@@ -172,6 +186,8 @@
                         $("#message").html(data);
                     });
                 }
+                
+                
             };
         
             //load and print food list
