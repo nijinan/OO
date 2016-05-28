@@ -162,7 +162,7 @@
                 }
                 console.log(res,JSON.stringify(Array(res)));
                 if (submittype==0) {
-                    $.post("/api/diet/new", {"data":JSON.stringify(Array(res))}, function(data) {
+                    $.post("/api/diet/insert", {"data":JSON.stringify(Array(res))}, function(data) {
                         console.log(data);
                         $("#message").html(data);
                     });
