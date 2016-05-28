@@ -152,12 +152,12 @@
             function submitnutrition() {
                 res=new Object();
                 for (i in attr_list_ro) {
-                	if (typeof($("#nut_value_"+attr_list_ro[i]).val())!="undefined")
+                	if ((typeof($("#nut_value_"+attr_list_ro[i]).val())!="undefined")&&($("#nut_value_"+attr_list_ro[i]).val().length>0))
                         res[attr_list_ro[i]]=$("#nut_value_"+attr_list_ro[i]).val();
                 }
                 for (i in attr_list) {
                     console.log(typeof($("#nut_value_"+attr_list[i]).val));
-                	if (typeof($("#nut_value_"+attr_list[i]).val())!="undefined")
+                	if ((typeof($("#nut_value_"+attr_list[i]).val())!="undefined")&&($("#nut_value_"+attr_list[i]).val().length>0))
                         res[attr_list[i]]=$("#nut_value_"+attr_list[i]).val();
                 }
                 console.log(res,JSON.stringify(Array(res)));
