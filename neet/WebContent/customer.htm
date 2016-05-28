@@ -22,9 +22,10 @@
       <div class="container">
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="/courier.htm">Courier</a></li>
-            <li><a href="/chef.htm">Chef</a></li>
-            <li class="active"><a href="/customer.htm">Customer</a></li>
+            <li><a href="/courier.htm">送餐员</a></li>
+            <li><a href="/chef.htm">厨师</a></li>
+            <li class="active"><a href="/customer.htm">顾客</a></li>
+            <li><a href="/nutritionist.htm">营养师</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -34,22 +35,12 @@
     <div class="row">
     	<div class="col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">Reports</a></li>
-            <li><a href="#">Analytics</a></li>
-            <li><a href="#">Export</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Nav item</a></li>
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
-            <li><a href="">More navigation</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
+            <li><a href="#type1">面包</a></li>
+            <li><a href="#type2">肉饼</a></li>
+            <li><a href="#type3">蔬菜</a></li>
+            <li><a href="#type4">芝士</a></li>
+            <li><a href="#type5">酱料</a></li>
+            <li><a href="#type6">其他</a></li>
           </ul>
         </div>
         <div id="center" class="col-md-7">
@@ -208,7 +199,7 @@
                     food_list[list_no_order[i].id]=list_no_order[i];
                 }
                 for (i in food_list) {
-                    $("#type"+food_list[i].type).append($("<button/>").attr({"class":"btn btn-default col-md-4","data-toggle":"tooltip","title":food_list[i].name,"onclick":"addmenu("+i+")"}).html(food_list[i].name));
+                    $("#type"+food_list[i].type).append($("<button/>").attr({"class":"btn btn-default col-md-3","data-toggle":"tooltip","title":food_list[i].name,"onclick":"addmenu("+i+")"}).html(food_list[i].name));
                 }
                 $('[data-toggle="tooltip"]').tooltip();
             });
